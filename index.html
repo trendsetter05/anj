@@ -81,18 +81,33 @@
   const yesBtn = document.getElementById("yesBtn");
   const result = document.getElementById("result");
 
-  // place NO button initially
-  moveNoButton();
-
-  function moveNoButton() {
+  // Put NO button nicely next to YES at start
+  function placeNoNextToYes() {
+    const yesRect = yesBtn.getBoundingClientRect();
     const cardRect = card.getBoundingClientRect();
 
-    const x = Math.random() * (cardRect.width - noBtn.offsetWidth);
-    const y = Math.random() * (cardRect.height - noBtn.offsetHeight);
+    const x = yesRect.left - cardRect.left + yesRect.width + 10;
+    const y = yesRect.top - cardRect.top;
 
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
   }
+
+  function moveNoButton() {
+    const padding = 10;
+
+    const maxX = card.clientWidth - noBtn.offsetWidth - padding;
+    const maxY = card.clientHeight - noBtn.offsetHeight - padding;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+  }
+
+  // Initial placement
+  placeNoNextToYes();
 
   noBtn.addEventListener("mouseenter", moveNoButton);
 
@@ -101,6 +116,7 @@
     result.style.display = "block";
   });
 </script>
+
 
 </body>
 </html>
