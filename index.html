@@ -1,122 +1,204 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Anjani ❤️</title>
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      font-family: Arial, sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
-    }
+<meta charset="UTF-8">
+<title>Anjani ❤️</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-    .card {
-      text-align: center;
-      background: white;
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      position: relative;
-      width: 320px;
-    }
+<style>
+*{
+  box-sizing:border-box;
+  font-family:Inter,system-ui,-apple-system,sans-serif;
+}
 
-    h1 {
-      margin-bottom: 20px;
-    }
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:
+    radial-gradient(circle at top left,#ffd6e0,transparent 40%),
+    radial-gradient(circle at bottom right,#ffc3a0,transparent 40%),
+    linear-gradient(135deg,#ff9a9e,#fad0c4);
+}
 
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
+.card{
+  width:360px;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter: blur(8px);
+  border-radius:22px;
+  padding:32px 28px 30px;
+  text-align:center;
+  position:relative;
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.15);
+}
 
-    #yesBtn {
-      background-color: #ff4d6d;
-      color: white;
-      margin-right: 10px;
-    }
+.badge{
+  display:inline-block;
+  padding:6px 14px;
+  border-radius:999px;
+  background:#ffe3ea;
+  color:#ff4d6d;
+  font-weight:600;
+  font-size:13px;
+  margin-bottom:14px;
+}
 
-    #noBtn {
-      background-color: #aaa;
-      color: white;
-      position: absolute;
-    }
+h1{
+  font-size:24px;
+  margin:8px 0 10px;
+  color:#222;
+}
 
-    #result {
-      display: none;
-    }
+.subtitle{
+  font-size:14px;
+  color:#666;
+  margin-bottom:26px;
+}
 
-    img {
-      width: 100%;
-      border-radius: 12px;
-      margin-top: 15px;
-    }
-  </style>
+.buttons{
+  position:relative;
+  height:60px;
+}
+
+button{
+  border:none;
+  border-radius:999px;
+  padding:12px 22px;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  transition:transform .15s ease, box-shadow .15s ease;
+}
+
+button:active{
+  transform:scale(0.96);
+}
+
+#yesBtn{
+  background:linear-gradient(135deg,#ff4d6d,#ff758f);
+  color:white;
+  box-shadow:0 10px 20px rgba(255,77,109,.35);
+}
+
+#yesBtn:hover{
+  box-shadow:0 14px 30px rgba(255,77,109,.45);
+}
+
+#noBtn{
+  background:#f1f1f1;
+  color:#666;
+  position:absolute;
+}
+
+#final{
+  display:none;
+}
+
+#final h2{
+  margin-top:6px;
+  font-size:22px;
+}
+
+#final p{
+  color:#555;
+  font-size:14px;
+}
+
+#final img{
+  width:100%;
+  border-radius:16px;
+  margin:14px 0 8px;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+}
+</style>
 </head>
+
 <body>
 
-  <div class="card" id="questionCard">
-    <h1>Anjani, will you be my Valentine? 💖</h1>
+<div class="card" id="card">
 
-    <button id="yesBtn">Yes</button>
-    <button id="noBtn">No</button>
+  <div id="ask">
+    <div class="badge">hi Anjani 💗</div>
+
+    <h1>Will you be my Valentine?</h1>
+    <div class="subtitle">You already know what the right answer is.</div>
+
+    <div class="buttons" id="btnArea">
+      <button id="yesBtn">Yes</button>
+      <button id="noBtn">No</button>
+    </div>
   </div>
 
-  <div class="card" id="result">
-    <h1>THANK GOD YOU SAID YES 😭❤️</h1>
-    <p>I almost had a heart attack clicking this.</p>
-    <img src="us.jpeg" alt="Us together">
-    <p>You’re officially stuck with me now 😌</p>
+  <div id="final">
+    <div class="badge">mission accomplished</div>
+    <h2>THANK GOD YOU SAID YES 😭❤️</h2>
+    <p>3.5 years later and you still picked me. I’m never letting you go.</p>
+    <img src="us.jpeg" alt="us">
+    <p>Happy Valentine’s, Anjani.</p>
   </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
 <script>
-  const noBtn = document.getElementById("noBtn");
-  const card = document.getElementById("questionCard");
-  const yesBtn = document.getElementById("yesBtn");
-  const result = document.getElementById("result");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const btnArea = document.getElementById("btnArea");
 
-  // Put NO button nicely next to YES at start
-  function placeNoNextToYes() {
-    const yesRect = yesBtn.getBoundingClientRect();
-    const cardRect = card.getBoundingClientRect();
+const ask = document.getElementById("ask");
+const final = document.getElementById("final");
 
-    const x = yesRect.left - cardRect.left + yesRect.width + 10;
-    const y = yesRect.top - cardRect.top;
+function placeNoButton(){
+  const yesRect = yesBtn.getBoundingClientRect();
+  const areaRect = btnArea.getBoundingClientRect();
 
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-  }
+  const left = yesRect.left - areaRect.left + yesRect.width + 12;
+  const top  = yesRect.top  - areaRect.top;
 
-  function moveNoButton() {
-    const padding = 10;
+  noBtn.style.left = left + "px";
+  noBtn.style.top  = top  + "px";
+}
 
-    const maxX = card.clientWidth - noBtn.offsetWidth - padding;
-    const maxY = card.clientHeight - noBtn.offsetHeight - padding;
+function moveNo(){
+  const padding = 6;
+  const maxX = btnArea.clientWidth - noBtn.offsetWidth - padding;
+  const maxY = btnArea.clientHeight - noBtn.offsetHeight - padding;
 
-    const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+  const x = Math.random() * maxX;
+  const y = Math.random() * maxY;
 
-    noBtn.style.left = x + "px";
-    noBtn.style.top = y + "px";
-  }
+  noBtn.style.left = x + "px";
+  noBtn.style.top  = y + "px";
+}
 
-  // Initial placement
-  placeNoNextToYes();
+window.addEventListener("load", placeNoButton);
+window.addEventListener("resize", placeNoButton);
 
-  noBtn.addEventListener("mouseenter", moveNoButton);
+noBtn.addEventListener("mouseenter", moveNo);
 
-  yesBtn.addEventListener("click", () => {
-    card.style.display = "none";
-    result.style.display = "block";
+yesBtn.addEventListener("click", () => {
+  ask.style.display = "none";
+  final.style.display = "block";
+
+  confetti({
+    particleCount: 160,
+    spread: 80,
+    origin: { y: 0.65 }
   });
-</script>
 
+  setTimeout(() => {
+    confetti({
+      particleCount: 120,
+      spread: 100,
+      origin: { y: 0.4 }
+    });
+  }, 300);
+});
+</script>
 
 </body>
 </html>
